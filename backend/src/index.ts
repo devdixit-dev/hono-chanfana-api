@@ -15,7 +15,7 @@ app.use("*", async (c, next) => {
 
 // Setup OpenAPI with chanfana
 const openapi = fromHono(app, {
-  docs_url: "/docs",
+  docs_url: "swagger-docs",
   openapi_url: "/openapi.json",
   schema: {
     info: {
@@ -23,6 +23,33 @@ const openapi = fromHono(app, {
       version: "1.0.0",
     },
   },
+});
+
+app.get("/docs", (c) => {
+  return c.html(`
+    <!doctype html>
+    <html>
+      <head>
+        <title>API Docs</title>
+      </head>
+      <body>
+        <div id="app"></div>
+        <script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference"></script>
+        <script>
+          Scalar.createApiReference('#app', {
+            url: '/openapi.json'
+          })
+        </script>
+      </body>
+    </html>
+  `);
+});
+
+app.get("/", async (c: any) => {
+  return c.json({
+    success: true,
+    message: "Hono Backend Running...",
+  });
 });
 
 // Register routes

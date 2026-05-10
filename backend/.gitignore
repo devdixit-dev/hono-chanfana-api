@@ -6,6 +6,7 @@ out
 dist
 *.tgz
 
+.wrangler
 setup.md
 
 # code coverage
