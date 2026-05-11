@@ -6,13 +6,6 @@ import type { Env, Variables } from "./types/env";
 
 const app = new Hono<{ Bindings: Env; Variables: Variables }>();
 
-// Middleware: attach DB to context
-app.use("*", async (c, next) => {
-  const db = createDb(c.env.DATABASE_URL);
-  c.set("db", db);
-  await next();
-});
-
 // Setup OpenAPI with chanfana
 const openapi = fromHono(app, {
   docs_url: "swagger-docs",
